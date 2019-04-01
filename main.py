@@ -91,7 +91,7 @@ if __name__ == "__main__":
 		if done: 
 
 			if total_timesteps != 0: 
-				print("Total T: %d Episode Num: %d Episode T: %d Reward: %f" % (total_timesteps, episode_num, episode_timesteps, episode_reward))
+				print("Total T:  %6d   Episode Num:  %4d   Episode T:  %3d   Reward:  %10f" % (total_timesteps, episode_num, episode_timesteps, episode_reward))
 				if args.policy_name == "TD3":
 					policy.train(replay_buffer, episode_timesteps, args.batch_size, args.discount, args.tau, args.policy_noise, args.noise_clip, args.policy_freq)
 				else: 
@@ -134,6 +134,9 @@ if __name__ == "__main__":
 		total_timesteps += 1
 		timesteps_since_eval += 1
 		
+	# Info about final episode
+	print("Total T:  %6d   Episode Num:  %4d   Episode T:  %3d   Reward:  %10f" % (total_timesteps, episode_num, episode_timesteps, episode_reward))
+
 	# Final evaluation 
 	evaluations.append(evaluate_policy(policy))
 	if args.save_models: policy.save("%s" % (file_name), directory="./pytorch_models")
