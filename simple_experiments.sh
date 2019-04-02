@@ -12,14 +12,16 @@ do
 	--env_name "Pendulum-v0" \
 	--seed $i \
 	--start_timesteps 1000 \
-	--max_timesteps 100000
+	--max_timesteps 100000 \
+	--save_models
 
 	python main.py \
 	--policy_name "TD3" \
 	--env_name "Pendulum-v0" \
 	--seed $i \
 	--start_timesteps 1000 \
-	--max_timesteps 100000
+	--max_timesteps 100000 \
+	--save_models
 done
 
 # Sleep after experiments are done

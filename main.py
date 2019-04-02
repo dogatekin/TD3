@@ -9,6 +9,7 @@ import TD3
 import OurDDPG
 import DDPG
 
+import roboschool
 
 # Runs policy for X episodes and returns average reward
 def evaluate_policy(policy, eval_episodes=10):
@@ -79,7 +80,7 @@ if __name__ == "__main__":
 	replay_buffer = utils.ReplayBuffer()
 	
 	# Evaluate untrained policy
-	evaluations = [evaluate_policy(policy)] 
+	evaluations = [[0,evaluate_policy(policy)]]
 
 	total_timesteps = 0
 	timesteps_since_eval = 0
@@ -100,7 +101,7 @@ if __name__ == "__main__":
 			# Evaluate episode
 			if timesteps_since_eval >= args.eval_freq:
 				timesteps_since_eval %= args.eval_freq
-				evaluations.append(evaluate_policy(policy))
+				evaluations.append([total_timesteps, evaluate_policy(policy)])
 				
 				if args.save_models: policy.save(file_name, directory="./pytorch_models")
 				np.save("./results/%s" % (file_name), evaluations) 
@@ -138,6 +139,6 @@ if __name__ == "__main__":
 	print("Total T:  %6d   Episode Num:  %4d   Episode T:  %3d   Reward:  %10f" % (total_timesteps, episode_num, episode_timesteps, episode_reward))
 
 	# Final evaluation 
-	evaluations.append(evaluate_policy(policy))
+	evaluations.append([total_timesteps, evaluate_policy(policy)])
 	if args.save_models: policy.save("%s" % (file_name), directory="./pytorch_models")
 	np.save("./results/%s" % (file_name), evaluations)  
